@@ -129,15 +129,17 @@ export default function AddLeadModal({ isOpen, onClose, onAddLead }: AddLeadModa
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+    <Modal isOpen={isOpen} onClose={onClose} size={{ base: 'full', md: '2xl' }}>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Add New Lead</ModalHeader>
+      <ModalContent mx={{ base: 0, md: 4 }}>
+        <ModalHeader px={{ base: 4, md: 6 }} py={{ base: 4, md: 6 }} fontSize={{ base: 'lg', md: 'xl' }}>
+          Add New Lead
+        </ModalHeader>
         <ModalCloseButton />
-        <ModalBody pb={6}>
-          <VStack spacing={6} align="stretch">
+        <ModalBody pb={6} px={{ base: 4, md: 6 }}>
+          <VStack spacing={{ base: 4, md: 6 }} align="stretch">
             {/* Basic Information */}
-            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+            <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
               <FormControl isRequired>
                 <FormLabel>Company Name</FormLabel>
                 <Input

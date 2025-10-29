@@ -62,6 +62,7 @@ import {
 import { useState } from 'react';
 import Layout from '@/components/Layout';
 import AddLeadModal from '@/components/ui/AddLeadModal';
+import MobileFAB from '@/components/ui/MobileFAB';
 import { sampleLeads, sampleUsers } from '@/lib/sampleData';
 import { Lead } from '@/types';
 
@@ -91,13 +92,13 @@ const LeadCard = ({ lead, onViewDetails, onEdit }: {
   const borderColor = useColorModeValue('gray.200', 'gray.700');
 
   return (
-    <Card bg={cardBg} borderColor={borderColor} borderWidth="1px">
-      <CardBody>
+    <Card bg={cardBg} borderColor={borderColor} borderWidth="1px" h="fit-content">
+      <CardBody p={{ base: 4, md: 6 }}>
         <VStack align="stretch" spacing={4}>
           {/* Header */}
           <Flex justifyContent="space-between" alignItems="flex-start">
-            <VStack align="flex-start" spacing={1}>
-              <HStack>
+            <VStack align="flex-start" spacing={1} flex={1} minW={0}>
+              <HStack spacing={2} width="100%">
                 <Text fontWeight="bold" fontSize="lg">
                   {lead.companyName}
                 </Text>
@@ -160,17 +161,17 @@ const LeadCard = ({ lead, onViewDetails, onEdit }: {
 
           {/* Contact Info */}
           <VStack align="stretch" spacing={2}>
-            <HStack fontSize="sm" color="gray.600">
-              <Phone size={14} />
-              <Text>{lead.phone}</Text>
+            <HStack fontSize="xs" color="gray.600" spacing={2}>
+              <Phone size={12} />
+              <Text isTruncated>{lead.phone}</Text>
             </HStack>
-            <HStack fontSize="sm" color="gray.600">
-              <Mail size={14} />
-              <Text>{lead.email}</Text>
+            <HStack fontSize="xs" color="gray.600" spacing={2}>
+              <Mail size={12} />
+              <Text isTruncated>{lead.email}</Text>
             </HStack>
-            <HStack fontSize="sm" color="gray.600">
-              <MapPin size={14} />
-              <Text>{lead.location}</Text>
+            <HStack fontSize="xs" color="gray.600" spacing={2}>
+              <MapPin size={12} />
+              <Text isTruncated>{lead.location}</Text>
             </HStack>
           </VStack>
 
@@ -203,11 +204,26 @@ const LeadCard = ({ lead, onViewDetails, onEdit }: {
           )}
 
           {/* Action Buttons */}
-          <HStack spacing={2}>
-            <Button size="sm" leftIcon={<Phone size={14} />} colorScheme="green" flex={1}>
+          <Flex 
+            direction={{ base: 'column', sm: 'row' }}
+            gap={2}
+          >
+            <Button 
+              size="sm" 
+              leftIcon={<Phone size={14} />} 
+              colorScheme="green" 
+              flex={1}
+              fontSize="xs"
+            >
               Call
             </Button>
-            <Button size="sm" leftIcon={<Mail size={14} />} variant="outline" flex={1}>
+            <Button 
+              size="sm" 
+              leftIcon={<Mail size={14} />} 
+              variant="outline" 
+              flex={1}
+              fontSize="xs"
+            >
               Email
             </Button>
             <IconButton
@@ -215,8 +231,9 @@ const LeadCard = ({ lead, onViewDetails, onEdit }: {
               icon={<MessageSquare size={14} />}
               colorScheme="whatsapp"
               aria-label="WhatsApp"
+              flexShrink={0}
             />
-          </HStack>
+          </Flex>
         </VStack>
       </CardBody>
     </Card>
@@ -235,24 +252,26 @@ const LeadDetailsModal = ({
   if (!lead) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+    <Modal isOpen={isOpen} onClose={onClose} size={{ base: 'full', md: '2xl' }}>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>
-          <HStack>
-            <Text>{lead.companyName}</Text>
-            <Badge colorScheme={StatusColors[lead.status] as any}>
+      <ModalContent mx={{ base: 0, md: 4 }}>
+        <ModalHeader p={{ base: 4, md: 6 }}>
+          <Flex direction={{ base: 'column', sm: 'row' }} gap={2} alignItems={{ base: 'flex-start', sm: 'center' }}>
+            <Text fontSize={{ base: 'md', md: 'lg' }} isTruncated flex={1}>
+              {lead.companyName}
+            </Text>
+            <Badge colorScheme={StatusColors[lead.status] as any} flexShrink={0}>
               {lead.status}
             </Badge>
-          </HStack>
+          </Flex>
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody pb={6}>
+        <ModalBody pb={6} px={{ base: 4, md: 6 }}>
           <VStack align="stretch" spacing={6}>
             {/* Basic Info */}
             <Box>
-              <Text fontWeight="semibold" mb={3}>Company Information</Text>
-              <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+              <Text fontWeight="semibold" mb={3} fontSize={{ base: 'sm', md: 'md' }}>Company Information</Text>
+              <Grid templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)' }} gap={4}>
                 <VStack align="flex-start" spacing={2}>
                   <HStack>
                     <Building size={16} />
@@ -445,41 +464,59 @@ export default function LeadsPage() {
     <Layout>
       <VStack spacing={6} align="stretch">
         {/* Header */}
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex 
+          direction={{ base: 'column', md: 'row' }}
+          justifyContent="space-between" 
+          alignItems={{ base: 'stretch', md: 'center' }}
+          gap={{ base: 4, md: 0 }}
+        >
           <Box>
-            <Text fontSize="2xl" fontWeight="bold">
+            <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold">
               Lead Management
             </Text>
-            <Text color="gray.600">
+            <Text color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>
               Manage and track your sales leads
             </Text>
           </Box>
-          <Button leftIcon={<Plus size={20} />} colorScheme="brand" onClick={onAddOpen}>
+          <Button 
+            leftIcon={<Plus size={20} />} 
+            colorScheme="brand" 
+            onClick={onAddOpen}
+            size={{ base: 'md', md: 'md' }}
+            width={{ base: 'full', md: 'auto' }}
+          >
             Add New Lead
           </Button>
         </Flex>
 
         {/* Filters */}
         <Card>
-          <CardBody>
+          <CardBody p={{ base: 4, md: 6 }}>
             <VStack spacing={4}>
-              <HStack width="100%" spacing={4}>
-                <InputGroup flex={2}>
-                  <InputLeftElement>
-                    <Search size={20} color="gray" />
-                  </InputLeftElement>
-                  <Input
-                    placeholder="Search leads by company, contact, phone, or email..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </InputGroup>
+              {/* Search Input - Full Width on Mobile */}
+              <InputGroup width="100%">
+                <InputLeftElement>
+                  <Search size={18} color="gray" />
+                </InputLeftElement>
+                <Input
+                  placeholder="Search leads..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  size={{ base: 'md', md: 'md' }}
+                />
+              </InputGroup>
 
+              {/* Filter Selects - Stack on Mobile */}
+              <Grid
+                templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }}
+                gap={3}
+                width="100%"
+              >
                 <Select
                   placeholder="All Statuses"
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  width="200px"
+                  size={{ base: 'md', md: 'md' }}
                 >
                   {statuses.map(status => (
                     <option key={status} value={status}>
@@ -492,7 +529,7 @@ export default function LeadsPage() {
                   placeholder="All Sources"
                   value={sourceFilter}
                   onChange={(e) => setSourceFilter(e.target.value)}
-                  width="200px"
+                  size={{ base: 'md', md: 'md' }}
                 >
                   {sources.map(source => (
                     <option key={source} value={source}>
@@ -505,7 +542,7 @@ export default function LeadsPage() {
                   placeholder="All Priorities"
                   value={priorityFilter}
                   onChange={(e) => setPriorityFilter(e.target.value)}
-                  width="200px"
+                  size={{ base: 'md', md: 'md' }}
                 >
                   {priorities.map(priority => (
                     <option key={priority} value={priority}>
@@ -513,7 +550,7 @@ export default function LeadsPage() {
                     </option>
                   ))}
                 </Select>
-              </HStack>
+              </Grid>
 
               {/* Filter Tags */}
               <HStack width="100%" justifyContent="space-between">
@@ -567,11 +604,11 @@ export default function LeadsPage() {
         <Grid
           templateColumns={{
             base: '1fr',
-            md: 'repeat(2, 1fr)',
+            sm: 'repeat(2, 1fr)',
             lg: 'repeat(3, 1fr)',
             xl: 'repeat(4, 1fr)',
           }}
-          gap={6}
+          gap={{ base: 4, md: 6 }}
         >
           {filteredLeads.map((lead) => (
             <LeadCard
@@ -619,6 +656,13 @@ export default function LeadsPage() {
         isOpen={isAddOpen}
         onClose={onAddClose}
         onAddLead={handleAddLead}
+      />
+
+      {/* Mobile Floating Action Button */}
+      <MobileFAB
+        onClick={onAddOpen}
+        aria-label="Add New Lead"
+        tooltip="Add New Lead"
       />
     </Layout>
   );

@@ -104,7 +104,12 @@ const ProfileTab = () => {
       {/* Profile Header */}
       <Card bg={cardBg}>
         <CardBody>
-          <HStack spacing={6}>
+          <Flex 
+            direction={{ base: 'column', md: 'row' }}
+            spacing={{ base: 4, md: 6 }}
+            gap={{ base: 4, md: 6 }}
+            alignItems={{ base: 'center', md: 'flex-start' }}
+          >
             <Box position="relative">
               <Avatar
                 size="2xl"
@@ -132,32 +137,43 @@ const ProfileTab = () => {
               />
             </Box>
             
-            <VStack align="flex-start" spacing={2} flex={1}>
-              <HStack>
-                <Text fontSize="2xl" fontWeight="bold">
+            <VStack align="flex-start" spacing={2} flex={1} minW={0}>
+              <Flex 
+                direction={{ base: 'column', sm: 'row' }}
+                alignItems={{ base: 'flex-start', sm: 'center' }}
+                gap={2}
+                width="100%"
+              >
+                <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold" isTruncated>
                   {currentUser.name}
                 </Text>
-                <Badge colorScheme="brand" px={3} py={1} borderRadius="full">
+                <Badge colorScheme="brand" px={3} py={1} borderRadius="full" flexShrink={0}>
                   {currentUser.role}
                 </Badge>
-              </HStack>
-              <Text color="gray.500" fontSize="lg">
+              </Flex>
+              <Text color="gray.500" fontSize={{ base: 'md', md: 'lg' }} isTruncated width="100%">
                 {currentUser.designation}
               </Text>
-              <HStack spacing={4} fontSize="sm" color="gray.600">
-                <HStack>
+              <Flex 
+                direction={{ base: 'column', sm: 'row' }}
+                gap={{ base: 2, sm: 4 }} 
+                fontSize="sm" 
+                color="gray.600"
+                wrap="wrap"
+              >
+                <HStack spacing={2}>
                   <Building size={14} />
                   <Text>{currentUser.department}</Text>
                 </HStack>
-                <HStack>
+                <HStack spacing={2}>
                   <MapPin size={14} />
                   <Text>{currentUser.branch}</Text>
                 </HStack>
-                <HStack>
+                <HStack spacing={2}>
                   <Calendar size={14} />
                   <Text>Joined Jan 2024</Text>
                 </HStack>
-              </HStack>
+              </Flex>
             </VStack>
 
             <Button
@@ -165,10 +181,12 @@ const ProfileTab = () => {
               onClick={() => setIsEditing(!isEditing)}
               variant={isEditing ? 'outline' : 'solid'}
               colorScheme="brand"
+              size={{ base: 'sm', md: 'md' }}
+              width={{ base: '100%', sm: 'auto' }}
             >
               {isEditing ? 'Cancel' : 'Edit Profile'}
             </Button>
-          </HStack>
+          </Flex>
         </CardBody>
       </Card>
 
@@ -179,8 +197,8 @@ const ProfileTab = () => {
             Personal Information
           </Text>
         </CardHeader>
-        <CardBody>
-          <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={6}>
+        <CardBody p={{ base: 4, md: 6 }}>
+          <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={{ base: 4, md: 6 }}>
             <FormControl>
               <FormLabel>Full Name</FormLabel>
               <Input
@@ -241,14 +259,28 @@ const ProfileTab = () => {
           </Grid>
 
           {isEditing && (
-            <HStack justifyContent="flex-end" mt={6} spacing={3}>
-              <Button variant="outline" onClick={() => setIsEditing(false)}>
+            <Flex 
+              direction={{ base: 'column', sm: 'row' }}
+              justifyContent="flex-end" 
+              mt={6} 
+              gap={3}
+            >
+              <Button 
+                variant="outline" 
+                onClick={() => setIsEditing(false)}
+                width={{ base: '100%', sm: 'auto' }}
+              >
                 Cancel
               </Button>
-              <Button colorScheme="brand" leftIcon={<Save size={16} />} onClick={handleSave}>
+              <Button 
+                colorScheme="brand" 
+                leftIcon={<Save size={16} />} 
+                onClick={handleSave}
+                width={{ base: '100%', sm: 'auto' }}
+              >
                 Save Changes
               </Button>
-            </HStack>
+            </Flex>
           )}
         </CardBody>
       </Card>
@@ -295,12 +327,12 @@ const SecurityTab = () => {
     <VStack spacing={6} align="stretch">
       {/* Change Password */}
       <Card bg={cardBg}>
-        <CardHeader>
-          <Text fontSize="lg" fontWeight="semibold">
+        <CardHeader p={{ base: 4, md: 6 }}>
+          <Text fontSize={{ base: 'md', md: 'lg' }} fontWeight="semibold">
             Change Password
           </Text>
         </CardHeader>
-        <CardBody>
+        <CardBody p={{ base: 4, md: 6 }}>
           <VStack spacing={4} align="stretch">
             <FormControl>
               <FormLabel>Current Password</FormLabel>
@@ -354,62 +386,82 @@ const SecurityTab = () => {
               />
             </FormControl>
 
-            <HStack justifyContent="flex-end" mt={4}>
-              <Button colorScheme="brand" leftIcon={<Lock size={16} />} onClick={handlePasswordChange}>
+            <Flex justifyContent="flex-end" mt={4}>
+              <Button 
+                colorScheme="brand" 
+                leftIcon={<Lock size={16} />} 
+                onClick={handlePasswordChange}
+                width={{ base: '100%', sm: 'auto' }}
+              >
                 Update Password
               </Button>
-            </HStack>
+            </Flex>
           </VStack>
         </CardBody>
       </Card>
 
       {/* Security Settings */}
       <Card bg={cardBg}>
-        <CardHeader>
-          <Text fontSize="lg" fontWeight="semibold">
+        <CardHeader p={{ base: 4, md: 6 }}>
+          <Text fontSize={{ base: 'md', md: 'lg' }} fontWeight="semibold">
             Security Settings
           </Text>
         </CardHeader>
-        <CardBody>
+        <CardBody p={{ base: 4, md: 6 }}>
           <VStack spacing={4} align="stretch">
-            <HStack justifyContent="space-between">
-              <VStack align="flex-start" spacing={1}>
-                <Text fontWeight="medium">Two-Factor Authentication</Text>
-                <Text fontSize="sm" color="gray.500">
+            <Flex 
+              direction={{ base: 'column', sm: 'row' }}
+              justifyContent="space-between"
+              alignItems={{ base: 'flex-start', sm: 'center' }}
+              gap={{ base: 3, sm: 0 }}
+            >
+              <VStack align="flex-start" spacing={1} flex={1}>
+                <Text fontWeight="medium" fontSize={{ base: 'sm', md: 'md' }}>Two-Factor Authentication</Text>
+                <Text fontSize="xs" color="gray.500">
                   Add an extra layer of security to your account
                 </Text>
               </VStack>
               <Switch colorScheme="brand" />
-            </HStack>
+            </Flex>
 
             <Divider />
 
-            <HStack justifyContent="space-between">
-              <VStack align="flex-start" spacing={1}>
-                <Text fontWeight="medium">Email Notifications for Login</Text>
-                <Text fontSize="sm" color="gray.500">
+            <Flex 
+              direction={{ base: 'column', sm: 'row' }}
+              justifyContent="space-between"
+              alignItems={{ base: 'flex-start', sm: 'center' }}
+              gap={{ base: 3, sm: 0 }}
+            >
+              <VStack align="flex-start" spacing={1} flex={1}>
+                <Text fontWeight="medium" fontSize={{ base: 'sm', md: 'md' }}>Email Notifications for Login</Text>
+                <Text fontSize="xs" color="gray.500">
                   Get notified when someone logs into your account
                 </Text>
               </VStack>
               <Switch colorScheme="brand" defaultChecked />
-            </HStack>
+            </Flex>
 
             <Divider />
 
-            <HStack justifyContent="space-between">
-              <VStack align="flex-start" spacing={1}>
-                <Text fontWeight="medium">Session Timeout</Text>
-                <Text fontSize="sm" color="gray.500">
+            <Flex 
+              direction={{ base: 'column', sm: 'row' }}
+              justifyContent="space-between"
+              alignItems={{ base: 'flex-start', sm: 'center' }}
+              gap={{ base: 3, sm: 0 }}
+            >
+              <VStack align="flex-start" spacing={1} flex={1}>
+                <Text fontWeight="medium" fontSize={{ base: 'sm', md: 'md' }}>Session Timeout</Text>
+                <Text fontSize="xs" color="gray.500">
                   Automatically log out after period of inactivity
                 </Text>
               </VStack>
-              <Select width="120px" defaultValue="30">
+              <Select width={{ base: '100%', sm: '120px' }} defaultValue="30">
                 <option value="15">15 minutes</option>
                 <option value="30">30 minutes</option>
                 <option value="60">1 hour</option>
                 <option value="120">2 hours</option>
               </Select>
-            </HStack>
+            </Flex>
           </VStack>
         </CardBody>
       </Card>
@@ -878,45 +930,45 @@ export default function SettingsPage() {
       <VStack spacing={6} align="stretch">
         {/* Header */}
         <Box>
-          <Text fontSize="2xl" fontWeight="bold">
+          <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold">
             Settings
           </Text>
-          <Text color="gray.600">
+          <Text color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>
             Manage your account settings and preferences
           </Text>
         </Box>
 
         {/* Settings Tabs */}
-        <Tabs variant="enclosed" colorScheme="brand">
-          <TabList>
-            <Tab>
-              <HStack>
+        <Tabs variant="enclosed" colorScheme="brand" isLazy>
+          <TabList overflowX="auto" overflowY="hidden">
+            <Tab minW="fit-content">
+              <HStack spacing={{ base: 1, md: 2 }}>
                 <User size={16} />
-                <Text>Profile</Text>
+                <Text fontSize={{ base: 'sm', md: 'md' }}>Profile</Text>
               </HStack>
             </Tab>
-            <Tab>
-              <HStack>
+            <Tab minW="fit-content">
+              <HStack spacing={{ base: 1, md: 2 }}>
                 <Shield size={16} />
-                <Text>Security</Text>
+                <Text fontSize={{ base: 'sm', md: 'md' }}>Security</Text>
               </HStack>
             </Tab>
-            <Tab>
-              <HStack>
+            <Tab minW="fit-content">
+              <HStack spacing={{ base: 1, md: 2 }}>
                 <Bell size={16} />
-                <Text>Notifications</Text>
+                <Text fontSize={{ base: 'sm', md: 'md' }}>Notifications</Text>
               </HStack>
             </Tab>
-            <Tab>
-              <HStack>
+            <Tab minW="fit-content">
+              <HStack spacing={{ base: 1, md: 2 }}>
                 <Palette size={16} />
-                <Text>Preferences</Text>
+                <Text fontSize={{ base: 'sm', md: 'md' }}>Preferences</Text>
               </HStack>
             </Tab>
-            <Tab>
-              <HStack>
+            <Tab minW="fit-content">
+              <HStack spacing={{ base: 1, md: 2 }}>
                 <Activity size={16} />
-                <Text>Activity</Text>
+                <Text fontSize={{ base: 'sm', md: 'md' }}>Activity</Text>
               </HStack>
             </Tab>
           </TabList>

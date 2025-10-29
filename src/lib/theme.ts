@@ -97,22 +97,62 @@ const theme = extendTheme({
         bg: 'neutral.50', // Using your cream color palette
         color: 'gray.800',
       },
+      // Mobile-first responsive utilities
+      '*': {
+        boxSizing: 'border-box',
+      },
+      // Ensure good touch targets on mobile
+      'button, a, [role="button"]': {
+        minHeight: '44px', // iOS recommendation for touch targets
+        minWidth: '44px',
+      },
     },
   },
   components: {
+    Button: {
+      defaultProps: {
+        colorScheme: 'brand',
+      },
+      sizes: {
+        xs: {
+          fontSize: 'xs',
+          px: 2,
+          py: 1,
+          minH: '32px',
+        },
+        sm: {
+          fontSize: 'sm',
+          px: 3,
+          py: 2,
+          minH: '36px',
+        },
+        md: {
+          fontSize: 'md',
+          px: 4,
+          py: 2,
+          minH: '44px', // Better mobile touch target
+        },
+      },
+    },
     Card: {
       baseStyle: {
-        p: 6,
-        bg: 'white',
         borderRadius: 'lg',
         boxShadow: 'sm',
         border: '1px solid',
         borderColor: 'gray.200',
       },
-    },
-    Button: {
+      variants: {
+        outline: {
+          bg: 'transparent',
+          borderWidth: '1px',
+        },
+        solid: {
+          bg: 'white',
+          borderWidth: '1px',
+        },
+      },
       defaultProps: {
-        colorScheme: 'brand',
+        variant: 'solid',
       },
     },
   },

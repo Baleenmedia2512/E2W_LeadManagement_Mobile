@@ -82,21 +82,33 @@ export default function AnimatedStatCard({
         shadow: 'lg',
         transition: { duration: 0.2 }
       }}
+      h="fit-content"
     >
-      <CardBody>
-        <VStack spacing={4} align="stretch">
-          <HStack justifyContent="space-between">
-            <VStack align="flex-start" spacing={2} flex={1}>
-              <Text fontSize="sm" color="gray.500" fontWeight="medium">
+      <CardBody p={{ base: 4, md: 6 }}>
+        <VStack spacing={{ base: 3, md: 4 }} align="stretch">
+          <Flex 
+            direction={{ base: 'column', sm: 'row' }}
+            justifyContent="space-between"
+            alignItems={{ base: 'flex-start', sm: 'center' }}
+            gap={{ base: 3, sm: 0 }}
+          >
+            <VStack align="flex-start" spacing={2} flex={1} minW={0}>
+              <Text 
+                fontSize={{ base: 'xs', md: 'sm' }} 
+                color="gray.500" 
+                fontWeight="medium"
+                isTruncated
+                width="100%"
+              >
                 {label}
               </Text>
-              <Text fontSize="2xl" fontWeight="bold">
+              <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold">
                 {value}
               </Text>
               {change && TrendIcon && (
                 <HStack spacing={1}>
-                  <Icon as={TrendIcon} size="sm" color={getTrendColor()} />
-                  <Text fontSize="sm" color={getTrendColor()} fontWeight="medium">
+                  <Icon as={TrendIcon} boxSize={{ base: 3, md: 4 }} color={getTrendColor()} />
+                  <Text fontSize={{ base: 'xs', md: 'sm' }} color={getTrendColor()} fontWeight="medium">
                     {Math.abs(change.value)}%
                   </Text>
                 </HStack>
@@ -104,14 +116,15 @@ export default function AnimatedStatCard({
             </VStack>
             
             <Box
-              p={3}
+              p={{ base: 2, md: 3 }}
               borderRadius="xl"
               bg={`${color}.100`}
               color={`${color}.600`}
+              flexShrink={0}
             >
-              <Icon as={IconComponent} boxSize={6} />
+              <Icon as={IconComponent} boxSize={{ base: 5, md: 6 }} />
             </Box>
-          </HStack>
+          </Flex>
 
           {/* Animated progress bar for visual appeal */}
           <motion.div

@@ -60,6 +60,7 @@ import {
   FileText,
   Mail,
 } from 'lucide-react';
+import { useBreakpointValue } from '@chakra-ui/react';
 import { useState } from 'react';
 import Layout from '@/components/Layout';
 import { sampleLeads, sampleUsers, sampleDSRMetrics } from '@/lib/sampleData';
@@ -100,35 +101,44 @@ const StatCard = ({
   color?: string;
 }) => {
   const cardBg = useColorModeValue('white', 'gray.800');
+  const iconSize = useBreakpointValue({ base: 18, md: 22 });
   
   return (
-    <Card bg={cardBg}>
-      <CardBody>
+    <Card bg={cardBg} h="fit-content">
+      <CardBody p={{ base: 4, md: 6 }}>
         <Stat>
-          <HStack justifyContent="space-between">
-            <VStack align="flex-start" spacing={1}>
-              <StatLabel fontSize="sm" color="gray.500">
+          <Flex 
+            direction={{ base: 'column', sm: 'row' }}
+            justifyContent="space-between"
+            alignItems={{ base: 'flex-start', sm: 'center' }}
+            gap={{ base: 3, sm: 0 }}
+          >
+            <VStack align="flex-start" spacing={1} flex={1} minW={0}>
+              <StatLabel fontSize={{ base: 'xs', md: 'sm' }} color="gray.500" isTruncated width="100%">
                 {label}
               </StatLabel>
-              <StatNumber fontSize="2xl">
+              <StatNumber fontSize={{ base: 'xl', md: '2xl' }}>
                 {value}
               </StatNumber>
               {change && (
                 <StatHelpText mb={0}>
                   <StatArrow type={change.type} />
-                  {Math.abs(change.value)}%
+                  <Text fontSize={{ base: 'xs', md: 'sm' }} display="inline">
+                    {Math.abs(change.value)}%
+                  </Text>
                 </StatHelpText>
               )}
             </VStack>
             <Box
-              p={3}
+              p={{ base: 2, md: 3 }}
               borderRadius="lg"
               bg={`${color}.100`}
               color={`${color}.600`}
+              flexShrink={0}
             >
-              <Icon size={24} />
+              <Icon size={iconSize} />
             </Box>
-          </HStack>
+          </Flex>
         </Stat>
       </CardBody>
     </Card>
@@ -140,38 +150,52 @@ const ConversionChart = () => {
   
   return (
     <Card bg={cardBg}>
-      <CardHeader>
-        <Text fontSize="lg" fontWeight="semibold">
+      <CardHeader p={{ base: 4, md: 6 }}>
+        <Text fontSize={{ base: 'md', md: 'lg' }} fontWeight="semibold">
           7-Day Performance Trend
         </Text>
       </CardHeader>
-      <CardBody>
-        <VStack spacing={4} align="stretch">
+      <CardBody p={{ base: 4, md: 6 }}>
+        <VStack spacing={{ base: 3, md: 4 }} align="stretch">
           {dsrData.map((day, index) => (
-            <HStack key={day.date} justifyContent="space-between">
-              <VStack align="flex-start" spacing={1}>
-                <Text fontSize="sm" fontWeight="medium">
+            <Flex 
+              key={day.date} 
+              direction={{ base: 'column', sm: 'row' }}
+              justifyContent="space-between"
+              alignItems={{ base: 'flex-start', sm: 'center' }}
+              gap={{ base: 2, sm: 0 }}
+              p={{ base: 2, md: 0 }}
+              borderRadius={{ base: 'md', md: 'none' }}
+              bg={{ base: 'gray.50', md: 'transparent' }}
+            >
+              <VStack align="flex-start" spacing={1} flex={1}>
+                <Text fontSize={{ base: 'xs', md: 'sm' }} fontWeight="medium">
                   {day.displayDate}
                 </Text>
-                <HStack spacing={4} fontSize="xs" color="gray.500">
+                <Flex 
+                  direction={{ base: 'column', sm: 'row' }}
+                  gap={{ base: 1, sm: 4 }} 
+                  fontSize="2xs" 
+                  color="gray.500"
+                >
                   <Text>{day.calls} calls</Text>
                   <Text>{day.leads} leads</Text>
                   <Text>{day.converted} converted</Text>
-                </HStack>
+                </Flex>
               </VStack>
-              <VStack align="flex-end" spacing={1}>
-                <Text fontSize="sm" fontWeight="semibold">
+              <VStack align={{ base: 'flex-start', sm: 'flex-end' }} spacing={1}>
+                <Text fontSize={{ base: 'xs', md: 'sm' }} fontWeight="semibold">
                   {day.conversionRate}%
                 </Text>
                 <Progress
                   value={parseFloat(day.conversionRate)}
-                  width="100px"
+                  width={{ base: '80px', md: '100px' }}
                   size="sm"
                   colorScheme={parseFloat(day.conversionRate) > 15 ? 'green' : parseFloat(day.conversionRate) > 10 ? 'orange' : 'red'}
                   borderRadius="full"
                 />
               </VStack>
-            </HStack>
+            </Flex>
           ))}
         </VStack>
       </CardBody>
@@ -201,41 +225,48 @@ const LeadSourceBreakdown = () => {
 
   return (
     <Card bg={cardBg}>
-      <CardHeader>
-        <Text fontSize="lg" fontWeight="semibold">
+      <CardHeader p={{ base: 4, md: 6 }}>
+        <Text fontSize={{ base: 'md', md: 'lg' }} fontWeight="semibold">
           Lead Source Breakdown
         </Text>
       </CardHeader>
-      <CardBody>
-        <VStack spacing={4} align="stretch">
+      <CardBody p={{ base: 4, md: 6 }}>
+        <VStack spacing={{ base: 3, md: 4 }} align="stretch">
           {Object.entries(sourceStats).map(([source, count]) => {
             const percentage = ((count / total) * 100).toFixed(1);
             return (
-              <HStack key={source} justifyContent="space-between">
-                <HStack>
+              <Flex 
+                key={source} 
+                direction={{ base: 'column', sm: 'row' }}
+                justifyContent="space-between"
+                alignItems={{ base: 'flex-start', sm: 'center' }}
+                gap={{ base: 2, sm: 0 }}
+              >
+                <HStack spacing={2} flex={1}>
                   <Badge
                     colorScheme={sourceColors[source as keyof typeof sourceColors]}
                     variant="solid"
                     borderRadius="full"
                     px={2}
+                    size="sm"
                   >
                     {source}
                   </Badge>
-                  <Text fontSize="sm">{count} leads</Text>
+                  <Text fontSize={{ base: 'xs', md: 'sm' }}>{count} leads</Text>
                 </HStack>
-                <VStack align="flex-end" spacing={1}>
-                  <Text fontSize="sm" fontWeight="semibold">
+                <VStack align={{ base: 'flex-start', sm: 'flex-end' }} spacing={1}>
+                  <Text fontSize={{ base: 'xs', md: 'sm' }} fontWeight="semibold">
                     {percentage}%
                   </Text>
                   <Progress
                     value={parseFloat(percentage)}
-                    width="80px"
+                    width={{ base: '60px', md: '80px' }}
                     size="sm"
                     colorScheme={sourceColors[source as keyof typeof sourceColors]}
                     borderRadius="full"
                   />
                 </VStack>
-              </HStack>
+              </Flex>
             );
           })}
         </VStack>
@@ -251,44 +282,53 @@ const TeamPerformance = () => {
   
   return (
     <Card bg={cardBg}>
-      <CardHeader>
-        <Text fontSize="lg" fontWeight="semibold">
+      <CardHeader p={{ base: 4, md: 6 }}>
+        <Text fontSize={{ base: 'md', md: 'lg' }} fontWeight="semibold">
           Team Performance
         </Text>
       </CardHeader>
-      <CardBody>
-        <VStack spacing={4} align="stretch">
+      <CardBody p={{ base: 4, md: 6 }}>
+        <VStack spacing={{ base: 3, md: 4 }} align="stretch">
           {cseUsers.map((user) => {
             const userLeads = sampleLeads.filter(lead => lead.assignedTo === user.id);
             const convertedLeads = userLeads.filter(lead => lead.status === 'Converted');
             const conversionRate = userLeads.length > 0 ? (convertedLeads.length / userLeads.length * 100).toFixed(1) : '0';
             
             return (
-              <HStack key={user.id} justifyContent="space-between" p={3} borderRadius="md" bg="gray.50">
-                <HStack>
-                  <Avatar size="sm" name={user.name} src={user.avatar} />
+              <Flex 
+                key={user.id} 
+                direction={{ base: 'column', sm: 'row' }}
+                justifyContent="space-between" 
+                alignItems={{ base: 'flex-start', sm: 'center' }}
+                p={{ base: 3, md: 3 }} 
+                borderRadius="md" 
+                bg="gray.50"
+                gap={{ base: 2, sm: 0 }}
+              >
+                <HStack spacing={3}>
+                  <Avatar size={{ base: 'sm', md: 'sm' }} name={user.name} src={user.avatar} />
                   <VStack align="flex-start" spacing={0}>
-                    <Text fontSize="sm" fontWeight="medium">
+                    <Text fontSize={{ base: 'xs', md: 'sm' }} fontWeight="medium">
                       {user.name}
                     </Text>
-                    <Text fontSize="xs" color="gray.500">
+                    <Text fontSize="2xs" color="gray.500">
                       {userLeads.length} leads assigned
                     </Text>
                   </VStack>
                 </HStack>
-                <VStack align="flex-end" spacing={1}>
-                  <Text fontSize="sm" fontWeight="semibold">
+                <VStack align={{ base: 'flex-start', sm: 'flex-end' }} spacing={1}>
+                  <Text fontSize={{ base: 'xs', md: 'sm' }} fontWeight="semibold">
                     {conversionRate}%
                   </Text>
                   <Progress
                     value={parseFloat(conversionRate)}
-                    width="80px"
+                    width={{ base: '60px', md: '80px' }}
                     size="sm"
                     colorScheme={parseFloat(conversionRate) > 15 ? 'green' : parseFloat(conversionRate) > 10 ? 'orange' : 'red'}
                     borderRadius="full"
                   />
                 </VStack>
-              </HStack>
+              </Flex>
             );
           })}
         </VStack>
@@ -318,17 +358,31 @@ export default function DSRPage() {
     <Layout>
       <VStack spacing={6} align="stretch">
         {/* Header */}
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex 
+          direction={{ base: 'column', md: 'row' }}
+          justifyContent="space-between" 
+          alignItems={{ base: 'flex-start', md: 'center' }}
+          gap={{ base: 4, md: 0 }}
+        >
           <Box>
-            <Text fontSize="2xl" fontWeight="bold">
+            <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold">
               Daily Status Report (DSR)
             </Text>
-            <Text color="gray.600">
+            <Text color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>
               Track team performance and lead progress
             </Text>
           </Box>
-          <HStack spacing={3}>
-            <Select value={dateRange} onChange={(e) => setDateRange(e.target.value)} width="120px">
+          <Flex 
+            direction={{ base: 'column', sm: 'row' }}
+            gap={3}
+            width={{ base: '100%', md: 'auto' }}
+          >
+            <Select 
+              value={dateRange} 
+              onChange={(e) => setDateRange(e.target.value)} 
+              width={{ base: '100%', sm: '120px' }}
+              size={{ base: 'md', md: 'md' }}
+            >
               <option value="1d">Today</option>
               <option value="7d">7 Days</option>
               <option value="30d">30 Days</option>
@@ -339,6 +393,8 @@ export default function DSRPage() {
                 as={Button}
                 leftIcon={<Download size={16} />}
                 variant="outline"
+                width={{ base: '100%', sm: 'auto' }}
+                size={{ base: 'md', md: 'md' }}
               >
                 Export
               </MenuButton>
@@ -354,11 +410,11 @@ export default function DSRPage() {
                 </MenuItem>
               </MenuList>
             </Menu>
-          </HStack>
+          </Flex>
         </Flex>
 
         {/* KPI Cards */}
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
+        <SimpleGrid columns={{ base: 2, md: 2, lg: 4 }} spacing={{ base: 3, md: 6 }}>
           <StatCard
             label="Total Calls"
             value={sampleDSRMetrics.totalCalls}
@@ -390,7 +446,7 @@ export default function DSRPage() {
         </SimpleGrid>
 
         {/* Charts and Analytics */}
-        <Grid templateColumns={{ base: '1fr', lg: '2fr 1fr' }} gap={6}>
+        <Grid templateColumns={{ base: '1fr', lg: '2fr 1fr' }} gap={{ base: 4, md: 6 }}>
           <ConversionChart />
           <VStack spacing={6} align="stretch">
             <LeadSourceBreakdown />
@@ -400,13 +456,22 @@ export default function DSRPage() {
 
         {/* Detailed Table */}
         <Card bg={cardBg}>
-          <CardHeader>
-            <Flex justifyContent="space-between" alignItems="center">
-              <Text fontSize="lg" fontWeight="semibold">
+          <CardHeader p={{ base: 4, md: 6 }}>
+            <Flex 
+              direction={{ base: 'column', md: 'row' }}
+              justifyContent="space-between" 
+              alignItems={{ base: 'flex-start', md: 'center' }}
+              gap={{ base: 4, md: 0 }}
+            >
+              <Text fontSize={{ base: 'md', md: 'lg' }} fontWeight="semibold">
                 Detailed Lead Report
               </Text>
-              <HStack spacing={3}>
-                <InputGroup width="250px">
+              <Flex 
+                direction={{ base: 'column', sm: 'row' }}
+                gap={3}
+                width={{ base: '100%', md: 'auto' }}
+              >
+                <InputGroup width={{ base: '100%', md: '250px' }}>
                   <InputLeftElement>
                     <Search size={16} />
                   </InputLeftElement>
@@ -421,7 +486,7 @@ export default function DSRPage() {
                   placeholder="All CSEs"
                   value={selectedCSE}
                   onChange={(e) => setSelectedCSE(e.target.value)}
-                  width="150px"
+                  width={{ base: '100%', md: '150px' }}
                   size="sm"
                 >
                   {sampleUsers.filter(user => user.role === 'CSE').map(user => (
@@ -430,11 +495,91 @@ export default function DSRPage() {
                     </option>
                   ))}
                 </Select>
-              </HStack>
+              </Flex>
             </Flex>
           </CardHeader>
-          <CardBody>
-            <Box overflowX="auto">
+          <CardBody p={{ base: 4, md: 6 }}>
+            {/* Mobile Card View */}
+            <Box display={{ base: 'block', lg: 'none' }}>
+              <VStack spacing={4} align="stretch">
+                {filteredLeads.slice(0, 10).map((lead) => (
+                  <Card key={lead.id} size="sm" variant="outline">
+                    <CardBody p={4}>
+                      <VStack spacing={3} align="stretch">
+                        <Flex justifyContent="space-between" alignItems="flex-start">
+                          <VStack align="flex-start" spacing={1} flex={1} minW={0}>
+                            <HStack spacing={2}>
+                              <Text fontSize="sm" fontWeight="bold" isTruncated>
+                                {lead.companyName}
+                              </Text>
+                              <Text fontSize="xs" color="gray.500" fontFamily="mono">
+                                {lead.id}
+                              </Text>
+                            </HStack>
+                            <Text fontSize="xs" color="gray.600" isTruncated>
+                              {lead.contactPerson} • {lead.phone}
+                            </Text>
+                          </VStack>
+                          <Menu>
+                            <MenuButton
+                              as={IconButton}
+                              icon={<MoreVertical size={14} />}
+                              size="sm"
+                              variant="ghost"
+                            />
+                            <MenuList>
+                              <MenuItem icon={<Eye size={14} />}>View Details</MenuItem>
+                              <MenuItem icon={<Edit size={14} />}>Edit Lead</MenuItem>
+                              <MenuItem icon={<Phone size={14} />}>Call</MenuItem>
+                            </MenuList>
+                          </Menu>
+                        </Flex>
+                        
+                        <Flex justifyContent="space-between" alignItems="center">
+                          <HStack spacing={2}>
+                            <Badge size="sm" variant="outline">{lead.source}</Badge>
+                            <Badge
+                              size="sm"
+                              colorScheme={
+                                lead.status === 'Converted' ? 'green' :
+                                lead.status === 'Quote Sent' ? 'blue' :
+                                lead.status === 'In Discussion' ? 'orange' :
+                                lead.status === 'Lost' ? 'red' : 'gray'
+                              }
+                            >
+                              {lead.status}
+                            </Badge>
+                          </HStack>
+                          <HStack spacing={1}>
+                            <Text fontSize="xs" fontWeight="semibold">{lead.leadScore}</Text>
+                            <Progress
+                              value={lead.leadScore}
+                              width="30px"
+                              size="sm"
+                              colorScheme={lead.leadScore > 70 ? 'green' : lead.leadScore > 40 ? 'orange' : 'red'}
+                              borderRadius="full"
+                            />
+                          </HStack>
+                        </Flex>
+                        
+                        <Flex justifyContent="space-between" alignItems="center">
+                          <HStack spacing={2}>
+                            <Avatar size="xs" name={lead.assignedToName} />
+                            <Text fontSize="xs">{lead.assignedToName}</Text>
+                          </HStack>
+                          <Text fontSize="xs" color="gray.500">
+                            {new Date(lead.createdAt).toLocaleDateString()}
+                          </Text>
+                        </Flex>
+                      </VStack>
+                    </CardBody>
+                  </Card>
+                ))}
+              </VStack>
+            </Box>
+
+            {/* Desktop Table View */}
+            <Box display={{ base: 'none', lg: 'block' }} overflowX="auto">
               <Table variant="simple" size="sm">
                 <Thead>
                   <Tr>

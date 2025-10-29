@@ -52,16 +52,23 @@ export default function HomePage() {
       <VStack spacing={6} align="stretch">
         {/* Welcome Section */}
         <Box>
-          <Text fontSize="2xl" fontWeight="bold" mb={2}>
+          <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold" mb={2}>
             Good morning, Amit! 👋
           </Text>
-          <Text color="gray.600">
+          <Text color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>
             Here's what's happening with your leads today.
           </Text>
         </Box>
 
         {/* KPI Cards */}
-        <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }} gap={6}>
+        <Grid 
+          templateColumns={{ 
+            base: 'repeat(2, 1fr)', 
+            md: 'repeat(2, 1fr)', 
+            lg: 'repeat(4, 1fr)' 
+          }} 
+          gap={{ base: 3, md: 6 }}
+        >
           <AnimatedStatCard
             label="Total Calls Today"
             value={sampleDSRMetrics.totalCalls}
@@ -97,7 +104,7 @@ export default function HomePage() {
         </Grid>
 
         {/* Secondary Stats */}
-        <Grid templateColumns={{ base: '1fr', lg: 'repeat(3, 1fr)' }} gap={6}>
+        <Grid templateColumns={{ base: '1fr', lg: 'repeat(3, 1fr)' }} gap={{ base: 4, md: 6 }}>
           <Card bg={cardBg}>
             <CardBody>
               <VStack align="stretch" spacing={4}>
@@ -163,70 +170,89 @@ export default function HomePage() {
         </Grid>
 
         {/* Recent Activity */}
-        <Grid templateColumns={{ base: '1fr', lg: '2fr 1fr' }} gap={6}>
+        <Grid templateColumns={{ base: '1fr', lg: '2fr 1fr' }} gap={{ base: 4, md: 6 }}>
           <Card bg={cardBg}>
-            <CardBody>
+            <CardBody p={{ base: 4, md: 6 }}>
               <VStack align="stretch" spacing={4}>
-                <Text fontSize="lg" fontWeight="semibold">
+                <Text fontSize={{ base: 'md', md: 'lg' }} fontWeight="semibold">
                   Recent Leads
                 </Text>
                 
                 {sampleLeads.slice(0, 5).map((lead) => (
-                  <HStack key={lead.id} justifyContent="space-between" p={3} borderRadius="md" bg="gray.50">
-                    <VStack align="flex-start" spacing={1}>
-                      <Text fontWeight="medium">{lead.companyName}</Text>
-                      <Text fontSize="sm" color="gray.600">
-                        {lead.contactPerson} • {lead.source}
-                      </Text>
-                    </VStack>
-                    <VStack align="flex-end" spacing={1}>
-                      <Badge
-                        colorScheme={
-                          lead.status === 'Converted' ? 'green' :
-                          lead.status === 'Quote Sent' ? 'blue' :
-                          lead.status === 'In Discussion' ? 'orange' : 'gray'
-                        }
+                  <Box 
+                    key={lead.id} 
+                    p={{ base: 3, md: 3 }} 
+                    borderRadius="md" 
+                    bg="gray.50"
+                  >
+                    <Flex 
+                      direction={{ base: 'column', sm: 'row' }}
+                      justifyContent="space-between"
+                      alignItems={{ base: 'flex-start', sm: 'center' }}
+                      gap={{ base: 2, sm: 0 }}
+                    >
+                      <VStack align="flex-start" spacing={1}>
+                        <Text fontWeight="medium" fontSize={{ base: 'sm', md: 'md' }}>
+                          {lead.companyName}
+                        </Text>
+                        <Text fontSize="xs" color="gray.600">
+                          {lead.contactPerson} • {lead.source}
+                        </Text>
+                      </VStack>
+                      <Flex 
+                        direction={{ base: 'row', sm: 'column' }}
+                        alignItems={{ base: 'center', sm: 'flex-end' }}
+                        gap={{ base: 2, sm: 1 }}
                       >
-                        {lead.status}
-                      </Badge>
-                      <Text fontSize="xs" color="gray.500">
-                        {new Date(lead.createdAt).toLocaleDateString()}
-                      </Text>
-                    </VStack>
-                  </HStack>
+                        <Badge
+                          size="sm"
+                          colorScheme={
+                            lead.status === 'Converted' ? 'green' :
+                            lead.status === 'Quote Sent' ? 'blue' :
+                            lead.status === 'In Discussion' ? 'orange' : 'gray'
+                          }
+                        >
+                          {lead.status}
+                        </Badge>
+                        <Text fontSize="xs" color="gray.500">
+                          {new Date(lead.createdAt).toLocaleDateString()}
+                        </Text>
+                      </Flex>
+                    </Flex>
+                  </Box>
                 ))}
               </VStack>
             </CardBody>
           </Card>
 
           <Card bg={cardBg}>
-            <CardBody>
+            <CardBody p={{ base: 4, md: 6 }}>
               <VStack align="stretch" spacing={4}>
-                <Text fontSize="lg" fontWeight="semibold">
+                <Text fontSize={{ base: 'md', md: 'lg' }} fontWeight="semibold">
                   Today's Tasks
                 </Text>
                 
                 <VStack align="stretch" spacing={3}>
-                  <HStack>
-                    <Icon as={CheckCircle} color="green.500" />
+                  <HStack spacing={3}>
+                    <Icon as={CheckCircle} color="green.500" boxSize={4} />
                     <Text fontSize="sm">Follow up with Tech Solutions</Text>
                   </HStack>
-                  <HStack>
-                    <Icon as={Phone} color="blue.500" />
+                  <HStack spacing={3}>
+                    <Icon as={Phone} color="blue.500" boxSize={4} />
                     <Text fontSize="sm">Call Green Energy Corp</Text>
                   </HStack>
-                  <HStack>
-                    <Icon as={Calendar} color="orange.500" />
+                  <HStack spacing={3}>
+                    <Icon as={Calendar} color="orange.500" boxSize={4} />
                     <Text fontSize="sm">Prepare quote for Retail Plus</Text>
                   </HStack>
-                  <HStack>
-                    <Icon as={Users} color="purple.500" />
+                  <HStack spacing={3}>
+                    <Icon as={Users} color="purple.500" boxSize={4} />
                     <Text fontSize="sm">Team standup at 2 PM</Text>
                   </HStack>
                 </VStack>
 
                 <Box pt={4} borderTop="1px" borderColor="gray.200">
-                  <Text fontSize="sm" color="gray.500">
+                  <Text fontSize="xs" color="gray.500">
                     4 tasks pending • 2 completed today
                   </Text>
                 </Box>
