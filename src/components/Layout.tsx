@@ -47,7 +47,6 @@ const navigation = [
   { name: 'Dashboard', href: '/', icon: Home },
   { name: 'Leads', href: '/leads', icon: Users },
   { name: 'DSR Reports', href: '/dsr', icon: BarChart3 },
-  { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
