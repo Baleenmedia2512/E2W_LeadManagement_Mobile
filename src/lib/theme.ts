@@ -8,53 +8,83 @@ const config: ThemeConfig = {
 const theme = extendTheme({
   config,
   colors: {
+    // Primary brand color - Coral Red (#e36255)
     brand: {
-      50: '#eff6ff',
-      100: '#dbeafe',
-      200: '#bfdbfe',
-      300: '#93c5fd',
-      400: '#60a5fa',
-      500: '#3b82f6',
-      600: '#2563eb',
-      700: '#1d4ed8',
-      800: '#1e40af',
-      900: '#1e3a8a',
+      50: '#fef7f6',
+      100: '#fde8e6',
+      200: '#fbd1cd',
+      300: '#f8b4ac',
+      400: '#ee7c6d',
+      500: '#e36255', // Your main color
+      600: '#d54a3b',
+      700: '#b23a2c',
+      800: '#933127',
+      900: '#792c26',
     },
+    // Secondary/Accent - Light Coral (#ec9a86)
+    secondary: {
+      50: '#fef9f7',
+      100: '#fef0eb',
+      200: '#fdddd2',
+      300: '#fbc4b0',
+      400: '#f7a48c',
+      500: '#ec9a86', // Your secondary color
+      600: '#df7a5e',
+      700: '#ca5f41',
+      800: '#a84f37',
+      900: '#8a4432',
+    },
+    // Success/Info - Soft Blue-Green (#a2c5c9)
     success: {
-      50: '#f0fdf4',
-      100: '#dcfce7',
-      200: '#bbf7d0',
-      300: '#86efac',
-      400: '#4ade80',
-      500: '#22c55e',
-      600: '#16a34a',
-      700: '#15803d',
-      800: '#166534',
-      900: '#14532d',
+      50: '#f7fbfb',
+      100: '#edf5f6',
+      200: '#d7e9eb',
+      300: '#b8d7da',
+      400: '#92c0c5',
+      500: '#a2c5c9', // Your blue-green color
+      600: '#7ba5aa',
+      700: '#658a8f',
+      800: '#567176',
+      900: '#4a5e62',
     },
+    // Warning - Golden Yellow (#f3c262)
     warning: {
-      50: '#fffbeb',
-      100: '#fef3c7',
-      200: '#fde68a',
-      300: '#fcd34d',
-      400: '#fbbf24',
-      500: '#f59e0b',
-      600: '#d97706',
-      700: '#b45309',
-      800: '#92400e',
-      900: '#78350f',
+      50: '#fefcf3',
+      100: '#fef7e0',
+      200: '#feecb8',
+      300: '#fedd85',
+      400: '#fcc84f',
+      500: '#f3c262', // Your golden color
+      600: '#e6a441',
+      700: '#c0842c',
+      800: '#9a6928',
+      900: '#7d5526',
     },
+    // Neutral/Background - Cream (#f1e0ce)
+    neutral: {
+      50: '#fefcfa',
+      100: '#fef6ee',
+      200: '#fdecd7',
+      300: '#fcdeb8',
+      400: '#f9ca8e',
+      500: '#f1e0ce', // Your cream color
+      600: '#e6c49e',
+      700: '#d1a474',
+      800: '#ac8558',
+      900: '#8b6d47',
+    },
+    // Keep error as a variation of your coral for consistency
     error: {
-      50: '#fef2f2',
-      100: '#fee2e2',
-      200: '#fecaca',
-      300: '#fca5a5',
-      400: '#f87171',
-      500: '#ef4444',
-      600: '#dc2626',
-      700: '#b91c1c',
-      800: '#991b1b',
-      900: '#7f1d1d',
+      50: '#fef7f6',
+      100: '#fde8e6',
+      200: '#fbd1cd',
+      300: '#f8b4ac',
+      400: '#f28b7a',
+      500: '#e36255',
+      600: '#d54a3b',
+      700: '#b23a2c',
+      800: '#933127',
+      900: '#792c26',
     }
   },
   fonts: {
@@ -64,7 +94,7 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: 'gray.50',
+        bg: 'neutral.50', // Using your cream color palette
         color: 'gray.800',
       },
     },
